@@ -51,7 +51,7 @@ class SlideInRects extends StatelessWidget {
                                 padding: const EdgeInsets.all(25.0),
                                 color: HSVColor.fromAHSV(
                                         1,
-                                        math.Random().nextInt(360).toDouble(),
+                                        200,
                                         1,
                                         1)
                                     .toColor(),
