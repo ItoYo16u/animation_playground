@@ -105,7 +105,7 @@ class Bounce extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                             color: delayedAnimations[e].value < 0.1
                                 ? Colors.black
-                                : HSVColor.fromAHSV(1, 360 / 12 * e, 1, 1)
+                                : HSVColor.fromAHSV(math.sin(delayedAnimations[e].value), 360 / 12 * e, 1, 1)
                                     .toColor()),
                       )),
                 )
