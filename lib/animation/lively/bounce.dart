@@ -11,7 +11,6 @@ class BounceBuilder extends HookWidget {
   }
 }
 
-
 class Bounce extends StatelessWidget {
   final AnimationController controller;
 
@@ -19,8 +18,19 @@ class Bounce extends StatelessWidget {
       : draw = controller
             .drive(CurveTween(curve: Curves.linear))
             .drive(Tween<double>(begin: 0, end: math.pi)) {
-    controller..forward()..repeat(reverse: true);
+    for (var i = 0; i < 'hello world!'.length; i++) {
+      final anime = controller
+          .drive(CurveTween(curve: Interval(i / 12, 1.0, curve: Curves.easeIn)))
+          .drive(Tween<double>(begin: 0, end: math.pi));
+      delayedAnimations.add(anime);
+    }
+
+    controller
+      ..forward()
+      ..repeat(reverse: false);
   }
+
+  List<Animation> delayedAnimations = [];
 
   final Animation draw;
 
@@ -31,13 +41,14 @@ class Bounce extends StatelessWidget {
         AnimatedBuilder(
             animation: draw,
             builder: (_, __) => Transform.translate(
-              offset: Offset(0,-88*math.sin(draw.value)),
-              child: Center(
-                  child: Container(
+                  offset: Offset(0, -88 * math.sin(draw.value)),
+                  child: Center(
+                      child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(50),
-                      color: Colors.black,
-
+                      color:
+                          HSVColor.fromAHSV(1, draw.value * 180 / math.pi, 1, 1)
+                              .toColor(),
                     ),
                     child: Stack(
                       children: [
@@ -46,10 +57,10 @@ class Bounce extends StatelessWidget {
                           top: 16,
                           child: Container(
                             decoration: BoxDecoration(
-                                color: Colors.black,
+                                color: Colors.black54,
                                 borderRadius: BorderRadius.circular(8),
-                                border: Border.all(color: Colors.white,width: 4)
-                            ),
+                                border:
+                                    Border.all(color: Colors.white, width: 4)),
                             width: 16 + math.sin(draw.value),
                             height: 16,
                           ),
@@ -61,19 +72,46 @@ class Bounce extends StatelessWidget {
                             decoration: BoxDecoration(
                                 color: Colors.black54,
                                 borderRadius: BorderRadius.circular(8),
-                                border: Border.all(color: Colors.white,width: 4)
-                            ),
+                                border:
+                                    Border.all(color: Colors.white, width: 4)),
                             width: 15,
                             height: 15,
                           ),
-                        )
+                        ),
                       ],
                     ),
-                    width: 96 + 4*math.cos(draw.value).abs()*3*math.cos(draw.value).abs(),
-                    height: 100 + 3*math.sin(draw.value)*4*math.sin(draw.value),
+                    width: 96 +
+                        4 *
+                            math.cos(draw.value).abs() *
+                            3 *
+                            math.cos(draw.value).abs(),
+                    height: 100 +
+                        3 * math.sin(draw.value) * 4 * math.sin(draw.value),
                   )),
-            )),
-
+                )),
+        AnimatedBuilder(
+          animation: controller,
+          builder: (_, __) => Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: Iterable<int>.generate('hello world!'.length)
+                .map(
+                  (e) => Transform.translate(
+                      offset:
+                          Offset(0, -20 * math.sin(delayedAnimations[e].value)),
+                      child: Text(
+                        'HELLO WORLD!'[e],
+                        style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: delayedAnimations[e].value < 0.1
+                                ? Colors.black
+                                : HSVColor.fromAHSV(1, 360 / 12 * e, 1, 1)
+                                    .toColor()),
+                      )),
+                )
+                .toList(),
+          ),
+        )
       ],
     );
   }
