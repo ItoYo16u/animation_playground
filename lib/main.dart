@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:interaction_playground/animation/lively/bounce.dart';
 
 void main() {
   runApp(MyApp());
@@ -21,10 +22,17 @@ class ListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        child: ListView(
-          children:
-              Iterable<int>.generate(10).map((i) => HeroContainer(i)).toList(),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            BounceBuilder(),
+
+          ],
         ),
+   //     child: ListView(
+     //     children:
+       //       Iterable<int>.generate(10).map((i) => HeroContainer(i)).toList(),
+      //  ),
       ),
     );
   }
