@@ -8,22 +8,43 @@ class StatefulListPage extends StatefulWidget {
   State<StatefulWidget> createState() => StatefulListState();
 }
 
-class StatefulListState extends State<StatefulListPage> {
-  List<int> values;
+class ListItemState {
+  ListItemState(this.idx, this.visible);
+
+  final int idx;
+  bool visible;
+}
+
+class StatefulListState extends State<StatefulListPage>
+    with TickerProviderStateMixin {
+  List<ListItemState> values;
+  List<AnimationController> animationControllers = [];
 
   @override
   void initState() {
-    values = Iterable<int>.generate(3).toList();
+    values = Iterable<int>.generate(100)
+        .map((i) => ListItemState(i, false))
+        .toList();
+    for (var i = 0; i < values.length; i++) {
+      if(i<20){
+        animationControllers.add(AnimationController(
+            duration: Duration(milliseconds: 300), vsync: this));
+      }else {
+        animationControllers.add(AnimationController(
+            duration: Duration(milliseconds: 500), vsync: this));
+      }
+
+    }
     print(values);
     super.initState();
   }
-
+ /*
   void add() {
     setState(() {
-      values.add(values.last + 1);
+      values.add(ListItemState(values.last.idx + 1, false));
     });
   }
-
+*/
   @override
   void dispose() {
     super.dispose();
@@ -38,17 +59,49 @@ class StatefulListState extends State<StatefulListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        children: values
-            .map((e) => ListTile(
-                  title: Text(e.toString()),
-                  onTap: () => add(),
-                ))
-            .toList(),
+      body: ListView.builder(
+        itemBuilder: (_, idx) {
+          print('item builder runs at $idx');
+          return SlideTransition(
+            position: Tween<Offset>(begin: Offset(-1, 0), end: Offset(0, 0))
+                .animate(animationControllers[idx]..forward()),
+            child: Container(
+              padding: EdgeInsets.all(10),
+              child: Container(
+                padding: EdgeInsets.all(24),
+                color: Colors.grey[200],
+                child: Text(values[idx].idx.toString()),
+              ),
+            ),
+          );
+
+          /*
+              *
+              * ScaleTransition(
+            scale: CurvedAnimation(
+                parent: AnimationController(
+                    duration: Duration(seconds: 1), vsync: this)
+                  ..forward(),
+                curve: Curves.easeOutCirc),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.grey[200],
+                border:
+                    Border(bottom: BorderSide(width: 0.5, color: Colors.grey)),
+              ),
+              child: ListTile(
+                title: Text(values[idx].idx.toString()),
+              ),
+            ),
+          );
+              *
+              * */
+        },
+        itemCount: values.length,
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () => add(),
+     //   onPressed: () => add(),
       ),
     );
   }

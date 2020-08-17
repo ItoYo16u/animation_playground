@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           backgroundColor: Colors.white,
         ),
-        home: Scaffold(body: StatelessListPage()));
+        home: Scaffold(body: StatefulListPage()));
   }
 }
 
