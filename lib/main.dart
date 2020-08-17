@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:interaction_playground/animation/lively/bounce.dart';
-import 'package:interaction_playground/guide/stateless_and_stateful.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,7 +13,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           backgroundColor: Colors.white,
         ),
-        home: Scaffold(body: StatelessListPage()));
+        home: Scaffold(body: ListPage()));
   }
 }
 

@@ -29,7 +29,12 @@ class StatefulListState extends State<StatefulListPage> {
   void dispose() {
     super.dispose();
   }
-  // stateful widgetではsetStateを用いて状態を変更するとbuildメソッドが再度呼ばれ画面さ再描画される。
+  // stateful widgetではsetStateを用いて状態を変更するとbuildメソッドが再度呼ばれ画面が再描画される
+  // イメージは以下
+  // StatefulListPage() コンストラクタ
+  //   - >  initState()
+  //    - > build()
+  //      - > add() -> setState() -> build()
   @override
   Widget build(BuildContext context) {
     return Scaffold(
