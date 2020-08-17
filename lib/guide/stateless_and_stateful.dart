@@ -26,19 +26,14 @@ class StatefulListState extends State<StatefulListPage>
         .map((i) => ListItemState(i, false))
         .toList();
     for (var i = 0; i < values.length; i++) {
-      if(i<20){
-        animationControllers.add(AnimationController(
-            duration: Duration(milliseconds: 300), vsync: this));
-      }else {
-        animationControllers.add(AnimationController(
-            duration: Duration(milliseconds: 500), vsync: this));
-      }
-
+      animationControllers.add(AnimationController(
+          duration: Duration(milliseconds: 300), vsync: this));
     }
     print(values);
     super.initState();
   }
- /*
+
+  /*
   void add() {
     setState(() {
       values.add(ListItemState(values.last.idx + 1, false));
@@ -63,8 +58,14 @@ class StatefulListState extends State<StatefulListPage>
         itemBuilder: (_, idx) {
           print('item builder runs at $idx');
           return SlideTransition(
-            position: Tween<Offset>(begin: Offset(-1, 0), end: Offset(0, 0))
-                .animate(animationControllers[idx]..forward()),
+            position: idx < 15
+                ? Tween<Offset>(begin: Offset(-1, 0), end: Offset(0, 0)).chain(CurveTween(
+                curve:
+                Interval(idx/15, 1, curve: Curves.easeIn)))
+                    .animate(animationControllers[idx]..forward()
+                      )
+                : Tween<Offset>(begin: Offset(-1, 0), end: Offset(0, 0))
+                    .animate(animationControllers[idx]..forward()),
             child: Container(
               padding: EdgeInsets.all(10),
               child: Container(
@@ -101,7 +102,7 @@ class StatefulListState extends State<StatefulListPage>
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-     //   onPressed: () => add(),
+        //   onPressed: () => add(),
       ),
     );
   }
