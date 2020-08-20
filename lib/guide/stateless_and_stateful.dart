@@ -27,7 +27,7 @@ class StatefulListState extends State<StatefulListPage>
         .toList();
     for (var i = 0; i < values.length; i++) {
       animationControllers.add(AnimationController(
-          duration: Duration(milliseconds: 300), vsync: this));
+          duration: Duration(milliseconds: 400), vsync: this));
     }
     print(values);
     super.initState();
@@ -100,10 +100,10 @@ class StatefulListState extends State<StatefulListPage>
         },
         itemCount: values.length,
       ),
-      floatingActionButton: FloatingActionButton(
+     /* floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         //   onPressed: () => add(),
-      ),
+      ),*/
     );
   }
 }
