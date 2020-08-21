@@ -3,6 +3,7 @@ import 'package:interaction_playground/animation/lively/bounce.dart';
 import 'package:interaction_playground/canvas_and_path/shape_divider/wavy_divider.dart';
 import 'package:interaction_playground/guide/stateless_and_stateful.dart';
 import 'package:interaction_playground/interaction/rolling_floating_button.dart';
+import 'package:interaction_playground/interaction/spread_buttons.dart';
 
 void main() {
   runApp(MyApp());
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           backgroundColor: Colors.white,
         ),
-        home: Scaffold(body: RollingFloatingButton()));
+        home: Scaffold(body: SpreadButtons()));
   }
 }
 
