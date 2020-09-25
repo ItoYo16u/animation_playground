@@ -19,8 +19,25 @@ class MyApp extends StatelessWidget {
           backgroundColor: Colors.white,
         ),
         home: Scaffold(
-          body: Center(
-            child: SwitchButtonB(),
+          body: GridView(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 4,
+              mainAxisSpacing: 20,
+            ),
+            children: [
+              Center(
+                child: SwitchButtonA(),
+              ),
+              Center(
+                child: SwitchButtonB(),
+              ),
+              Center(
+                child: SwitchButtonC(),
+              ),
+              Center(
+                child: SwitchButtonD(),
+              )
+            ],
           ),
         ));
     // home: Scaffold(body: SpreadButtons()));
